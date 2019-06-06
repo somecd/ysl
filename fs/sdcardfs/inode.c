@@ -96,10 +96,12 @@ static int sdcardfs_create(struct inode *dir, struct dentry *dentry,
 		err = -ENOMEM;
 		goto out_unlock;
 	}
-	copied_fs->umask = 0;
-	task_lock(current);
+	 copied_fs->umask = 0;
+	 task_lock(current);
+
 	current->fs = copied_fs;
-	task_unlock(current);
+  	task_unlock(current);
+
 
 	err = vfs_create2(lower_dentry_mnt, lower_parent_dentry->d_inode, lower_dentry, mode, want_excl);
 	if (err)
@@ -114,10 +116,11 @@ static int sdcardfs_create(struct inode *dir, struct dentry *dentry,
 	fixup_lower_ownership(dentry, dentry->d_name.name);
 
 out:
-	task_lock(current);
+	 task_lock(current);
 	current->fs = saved_fs;
-	task_unlock(current);
-	free_fs_struct(copied_fs);
+	 task_unlock(current);
+
+	 free_fs_struct(copied_fs);
 out_unlock:
 	unlock_dir(lower_parent_dentry);
 	sdcardfs_put_lower_path(dentry, &lower_path);
@@ -254,10 +257,12 @@ static int sdcardfs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode
 		unlock_dir(lower_parent_dentry);
 		goto out_unlock;
 	}
-	copied_fs->umask = 0;
-	task_lock(current);
-	current->fs = copied_fs;
-	task_unlock(current);
+         copied_fs->umask = 0;
+	 task_lock(current);
+	 current->fs = copied_fs;
+
+	 task_unlock(current);
+
 
 	err = vfs_mkdir2(lower_mnt, lower_parent_dentry->d_inode, lower_dentry, mode);
 
